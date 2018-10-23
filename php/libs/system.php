@@ -56,7 +56,7 @@ function sys_proc() {
         }
     
         if (!feof($ps_cmd_handle)) {
-            print("ERROR: EOF error on the command: {$ps_cmd}\n");
+            echo("ERROR: EOF error on the command: {$ps_cmd}".PHP_EOL);
             exit(2);
         }
     

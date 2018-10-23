@@ -1,4 +1,10 @@
 <?php
+// exit if running under command line
+if (php_sapi_name() === 'cli') {
+    echo("ERROR: Cannot run under command line.".PHP_EOL);
+    exit(1);
+}
+
 // load libs
 require 'libs/system.php';
 require 'libs/filesystem.php';

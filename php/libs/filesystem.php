@@ -30,7 +30,7 @@ function df_usage() {
         }
     
         if (!feof($df_space_cmd_handle)) {
-            print("ERROR: EOF error on the command: {$df_space_cmd }\n");
+            echo("ERROR: EOF error on the command: {$df_space_cmd}".PHP_EOL);
             exit(2);
         }
     
@@ -58,7 +58,7 @@ function df_usage() {
         }
     
         if (!feof($df_inode_cmd_handle)) {
-            print("ERROR: EOF error on the command: {$df_inode_cmd }\n");
+            echo("ERROR: EOF error on the command: {$df_inode_cmd}".PHP_EOL);
             exit(2);
         }
     
