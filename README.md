@@ -4,8 +4,9 @@ SysStatus is a package to provide running host system real-time metrics via HTTP
 ### PHP Version
 ---
 #### Install
-1. Configure a web server with PHP support.
+1. Configure a web server with PHP support. TLS is recommended.
 2. Copy all files under `php/` to a proper location that the web server can read.
+3. Access the endpoint via <https://hostname/path/sysstatus.php>.
 
 #### Configuration
 There's no special configuration needs to be done. However, the package needs to access some data from commands or files under `/proc` so please make sure the SELinux enforcement setting is **disabled** or **permissive**.
