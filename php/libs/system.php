@@ -1,6 +1,6 @@
 <?php
 // SYSTEM FUNCTIONS
-// Rev. Date: 10-22-2018
+// Rev. Date: 10-29-2018
 // Function List:
 // sys_loadavg(): 1m/5m/15m load avg.
 // sys_filenr(): FDs usage
