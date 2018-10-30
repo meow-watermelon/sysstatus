@@ -43,15 +43,19 @@ function sys_proc() {
     $prefix = 'process';
     $ps_cmd = escapeshellcmd('/bin/ps -eo stat --no-headers');
     $ps_cmd_handle = popen($ps_cmd, 'r');
-    $ps_cmd_array = array();
+    $proc_pid_max_file = '/proc/sys/kernel/pid_max';
+    $proc_pid_max_content = file($proc_pid_max_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $proc_pid_max = $proc_pid_max_content[0];
+
+    $proc_o = array();
     
     if ($ps_cmd_handle) {
         while (($buffer = fgets($ps_cmd_handle)) !== FALSE) {
             $proc_stat = substr(trim($buffer), 0, 1);
-            if (!array_key_exists("$cat.$prefix.$proc_stat", $ps_cmd_array)) {
-                $ps_cmd_array["$cat.$prefix.$proc_stat"] = 1;
+            if (!array_key_exists("$cat.$prefix.$proc_stat", $proc_o)) {
+                $proc_o["$cat.$prefix.$proc_stat"] = 1;
             } else {
-                $ps_cmd_array["$cat.$prefix.$proc_stat"]++;
+                $proc_o["$cat.$prefix.$proc_stat"]++;
             }
         }
     
@@ -63,7 +67,9 @@ function sys_proc() {
         pclose($ps_cmd_handle);
     }
 
-    return $ps_cmd_array;
+    $proc_o["$cat.$prefix.pid_max"] = $proc_pid_max;
+
+    return $proc_o;
 }
 
 function sys_mem() {
