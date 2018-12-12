@@ -1,8 +1,9 @@
 <?php
 // SYSTEM FUNCTIONS
-// Rev. Date: 10-29-2018
+// Rev. Date: 12-11-2018
 // Function List:
 // sys_loadavg(): 1m/5m/15m load avg.
+// sys_uptime(): uptime
 // sys_filenr(): FDs usage
 // sys_proc(): process state
 // sys_mem(): memory usage
@@ -22,6 +23,20 @@ function sys_loadavg() {
     );
 
     return $loadavg_o;
+}
+
+function sys_uptime() {
+    $cat = 'system';
+    $prefix = 'uptime';
+    $uptime_file = '/proc/uptime';
+    $uptime_content = file($uptime_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $uptime = preg_split("/\s+/", $uptime_content[0]);
+    $uptime_o = array(
+        "$cat.$prefix.up_time" => $uptime[0],
+        "$cat.$prefix.idle_time" => $uptime[1],
+    );
+
+    return $uptime_o;
 }
 
 function sys_filenr() {

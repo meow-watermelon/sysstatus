@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
  
     // system metrics
     $sysstatus['system']['loadavg'] = sys_loadavg();
+    $sysstatus['system']['uptime'] = sys_uptime();
     $sysstatus['system']['file-nr'] = sys_filenr();
     $sysstatus['system']['procs'] = sys_proc();
     $sysstatus['system']['memory'] = sys_mem();
