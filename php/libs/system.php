@@ -156,7 +156,7 @@ function sys_diskperf() {
         $dev_name = $d[3];
     
         $counter = 0;
-        for ($i = 4; $i < count($d) - 1; $i++) {
+        for ($i = 4; $i < 14; $i++) {
             $disk_o[$dev_name]["$cat.$prefix.$disk_metrics[$counter]"] = $d[$i];
             $counter++;
         }
