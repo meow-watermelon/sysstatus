@@ -168,14 +168,76 @@ local function sys_mem()
     end
     --]]
 
-
     return meminfo_o
 end
 
 local function sys_cpu()
+    local cpu_o = {}
+
+    local prefix = "cpu"
+    local cpu_metrics = {"user", "nice", "sys", "idle", "iowait"}
+    local cpu_file = "/proc/stat"
+    local cpu_file_handle = io.open(cpu_file, "r")
+    for item in cpu_file_handle:lines() do
+        if string.find(item, "^cpu") then
+            local cpu_table = str.split_space(item)
+            local cpu_name = cpu_table[1]
+
+            cpu_o[cpu_name] = {}
+            for counter = 1, 5 do
+                cpu_o[cpu_name][cat .. "." .. prefix .. "." .. cpu_metrics[counter]] = cpu_table[counter + 1]
+            end
+        end
+    end
+
+    -- debug
+    --[[
+    for k, v in pairs(cpu_o) do
+        for m, n in pairs(v) do
+            print(k, m, n)
+        end
+    end
+    --]]
+
+    return cpu_o
 end
 
 local function sys_diskperf()
+    local disk_o = {}
+
+    local prefix = "disk"
+    local disk_metrics = {"read_complete",
+        "read_merge",
+        "read_sector",
+        "read_time_spend",
+        "write_complete",
+        "write_merge",
+        "write_sector",
+        "write_time_spend",
+        "io_queue",
+        "io_time_spend"}
+    local disk_file = "/proc/diskstats"
+    local disk_file_handle = io.open(disk_file, "r")
+    for item in disk_file_handle:lines() do
+        local disk_table = str.split_space(item)
+        local dev_name = disk_table[3]
+
+        disk_o[dev_name] = {}
+        for counter = 1, 10 do
+            disk_o[dev_name][cat .. "." .. prefix .. "." .. disk_metrics[counter]] = disk_table[counter + 3]
+        end
+    end
+
+    -- debug
+    --[[
+    for k, v in pairs(disk_o) do
+        for m, n in pairs(v) do
+            print(k, m, n)
+        end
+    end
+    --]]
+
+    return disk_o
 end
 
 M.sys_loadavg = sys_loadavg
