@@ -1,10 +1,11 @@
 #!/usr/bin/env lua
 -- FILEYSTEM FUNCTIONS
--- Rev. Date: XX-XX-XXXX
+-- Rev. Date: 11-07-2019
 -- Function List:
 -- df_usage(): mounted fs space/inode usage
 
 local str = require "str"
+
 local M = {}
 
 local cat = "fs"

@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 -- SYSTEM FUNCTIONS
--- Rev. Date: XX-XX-XXXX
+-- Rev. Date: 11-07-2019
 -- Function List:
 -- sys_loadavg(): 1m/5m/15m load avg.
 -- sys_uptime(): uptime
@@ -11,6 +11,7 @@
 -- sys_diskperf(): disk performance metrics
 
 local str = require "str"
+
 local M = {}
 
 local cat = "system"
@@ -50,8 +51,8 @@ local function sys_uptime()
     for item in uptime_file_handle:lines() do
         local uptime = str.split_space(item)
 
-        uptime_o[cat .. "." .. prefix .. "up_time"] = uptime[1]
-        uptime_o[cat .. "." .. prefix .. "idle_time"] = uptime[2]
+        uptime_o[cat .. "." .. prefix .. ".up_time"] = uptime[1]
+        uptime_o[cat .. "." .. prefix .. ".idle_time"] = uptime[2]
     end
 
     uptime_file_handle:close()
@@ -75,8 +76,8 @@ local function sys_filenr()
     for item in filenr_file_handle:lines() do
         local filenr = str.split_space(item)
 
-        filenr_o[cat .. "." .. prefix .. "open"] = filenr[1]
-        filenr_o[cat .. "." .. prefix .. "max"] = filenr[3]
+        filenr_o[cat .. "." .. prefix .. ".open"] = filenr[1]
+        filenr_o[cat .. "." .. prefix .. ".max"] = filenr[3]
     end
 
     filenr_file_handle:close()
@@ -101,7 +102,7 @@ local function sys_proc()
         local proc_pid_max_content = str.split_space(item)
         local proc_pid_max = proc_pid_max_content[1]
 
-        proc_o[cat .. "." .. prefix .. "." .. "pid_max"] = proc_pid_max
+        proc_o[cat .. "." .. prefix .. ".pid_max"] = proc_pid_max
     end
 
     proc_pid_max_file_handle:close()
@@ -161,6 +162,8 @@ local function sys_mem()
         end
     end
 
+    meminfo_file_handle:close()
+
     --debug
     --[[
     for k, v in pairs(meminfo_o) do
@@ -189,6 +192,8 @@ local function sys_cpu()
             end
         end
     end
+
+    cpu_file_handle:close()
 
     -- debug
     --[[
@@ -227,6 +232,8 @@ local function sys_diskperf()
             disk_o[dev_name][cat .. "." .. prefix .. "." .. disk_metrics[counter]] = disk_table[counter + 3]
         end
     end
+
+    disk_file_handle:close()
 
     -- debug
     --[[

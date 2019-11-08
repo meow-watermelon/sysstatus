@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     echo $sysstatus_json;
 } else {
     echo "ERROR: HTTP method ".$_SERVER['REQUEST_METHOD']." is not supported.".PHP_EOL;
-    http_response_code(400);
+    http_response_code(405);
 }
 
 // debug use
